@@ -1,0 +1,50 @@
+{
+  "projects": [
+    {
+      "project_id": 1,
+      "project_name": "SprintRetrospective",
+      "description": "Project managing app",
+      "team_name": "JAN",
+      "team_number": 53,
+      "click_up_link": "https://app.clickup.com/1234698/d/b?p=-1",
+      "start_date": "02-02-20",
+      "initial_volicity": 60.00,
+      "hours_per_storypoint": 2,
+      "user_stories": [
+        {
+          "story_id": 1,
+          "sprint_id": 1,
+          "description": "Provide a basic menu system for the application",
+          "initial_estimated_hours": 5.5,
+          "actual_hours_worked": 0.0,
+          "last-updated": "time and date go here",
+          "status":  "Testing",
+          "subtasks": [
+            {
+              "subtask_id": 1,
+              "user_id": 1,
+              "last-updated": "time and date go here",
+              "description": "Create a  basic menu",
+              "initial_estimated_hours": 2.0,
+              "actual_hours_worked": 2.5
+            }
+          ]
+        }
+      ],
+      "sprints": [
+        {
+          "sprint_id": 1,
+          "velocity":  0.0
+        }
+      ],
+      "users": [
+        {
+          "user_id": 1,
+          "first_name": "Test",
+          "last_name": "User",
+          "role":  "Coder"
+        }
+      ]
+    }
+  ]
+}
