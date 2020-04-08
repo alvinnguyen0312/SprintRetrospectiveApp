@@ -221,6 +221,21 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             return userFullNameListBytProject;
         }
 
+        public User GetUserByUserStory(int userStoryID, int projectId)
+        {
+
+            var userStories = GetAllUserStoryByProject(projectId);
+
+            var userId = userStories.Where(us => us.Id == userStoryID).Select(u => u.UserId).FirstOrDefault();
+
+            var user = userList.Where(u => u.Id == userId).FirstOrDefault();
+
+            return user;
+
+        }
+
+
+
         /// <summary>
         /// Get list of user story by user ID
         /// </summary>

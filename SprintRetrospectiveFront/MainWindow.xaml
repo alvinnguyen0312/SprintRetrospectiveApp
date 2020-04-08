@@ -277,28 +277,39 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="60*"/>
-                                <RowDefinition Height="117*"/>
-                                <RowDefinition Height="121*"/>
-                                <RowDefinition Height="60*"/>
+                                <RowDefinition Height="98*"/>
+                                <RowDefinition Height="95*"/>
+                                <RowDefinition Height="104*"/>
+                                <RowDefinition Height="65*"/>
                             </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,116.5" Grid.RowSpan="2">
-                                <GroupBox  Header="Selected User Story" HorizontalAlignment="Center" Height="60" Margin="10,0,0,0" VerticalAlignment="Top" Width="680" FontStyle="Italic">
+                            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,12">
+                                <GroupBox  Header="Selected User Story" HorizontalAlignment="Center" Height="86" Margin="10,0,0,0" Width="680" FontStyle="Italic">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="8*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <ComboBox x:Name="ComboBoxSelectedUserStory" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2" VerticalContentAlignment="Center" Width="420" Margin="5" ></ComboBox>
-                                        <Label Content="Current Member :" Margin="2" HorizontalContentAlignment="Left"  Grid.Column="1"   Grid.Row="2" VerticalContentAlignment="Center" FontStyle="Normal"/>
-                                        <TextBox x:Name="txtCurrentAssignedMember" Margin="2" TextWrapping="Wrap" Grid.Column="2"  Grid.Row="2" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="True" BorderThickness="0"/>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="34*"/>
+                                            <RowDefinition Height="30*"/>
+                                        </Grid.RowDefinitions>
+                                        <ComboBox x:Name="ComboBoxSelectedUserStory" HorizontalAlignment="Left" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" VerticalContentAlignment="Center" Width="610" Margin="25,5,0,5" FontStyle="Normal"  SelectedValuePath="Id" DisplayMemberPath="Description" SelectionChanged="ComboBoxSelectedUserStory_SelectionChanged" />
+                                        <Label Content="Current Member :" Margin="2,2,2,2" HorizontalContentAlignment="Left"   Grid.Column="0" Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal"/>
+                                        <TextBox x:Name="txtCurrentUserStoryAssignedMember" Margin="2,2,2,2" TextWrapping="Wrap" Grid.Column="1"  Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="True" BorderThickness="0"/>
+                                        <Label Content="Current Sprint :" Margin="2,2,2,2" HorizontalContentAlignment="Left"   Grid.Column="2" Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal"/>
+                                        <TextBox x:Name="txtCurrentUserStorySprint" Margin="2,2,2,2" TextWrapping="Wrap" Grid.Column="3"  Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="True" BorderThickness="0"/>
+                                        <Label Content="Current Status :" Margin="2,2,2,2" HorizontalContentAlignment="Left"   Grid.Column="4" Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal"/>
+                                        <TextBox x:Name="txtCurrentUserStoryStatus" Margin="2,2,2,2" TextWrapping="Wrap" Grid.Column="5"  Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="True" BorderThickness="0"/>
                                     </Grid>
                                 </GroupBox>
                             </StackPanel>
 
-                            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10.5,58.5,10" Grid.RowSpan="3">
+                            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,58,10" Grid.RowSpan="3">
                                 <Grid RenderTransformOrigin="0.545,0.488" Height="227">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="17*"/>
@@ -313,37 +324,64 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
 
-                                    <Label Content="Assigning Member :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="0" FontStyle="Normal"/>
-                                    <Label Content="Current Sprint :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="1" FontStyle="Normal"/>
-                                    <Label Content="Current Status :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="2" FontStyle="Normal"/>
+                                    <Label Content="Assign Member :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="0" FontStyle="Normal"/>
+                                    <Label Content="Update Sprint :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="1" FontStyle="Normal"/>
+                                    <Label Content="Update Status :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="2" FontStyle="Normal"/>
                                     <Label Content="Story Points :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="3" FontStyle="Normal"/>
                                     <Label Content="Story Estimated Time :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="4" FontStyle="Normal"/>
                                     <Label Content="Story Actual Time :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="5" FontStyle="Normal"/>
 
-                                    <ComboBox x:Name="ComboBoxAssignedMember" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="107" Margin="0,5,5,5" Grid.Row="0" Grid.ColumnSpan="2"/>
-                                    <ComboBox x:Name="ComboBoxCurrentSprint" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="107" Margin="0,5,5,5" Grid.Row="1" Grid.ColumnSpan="2"/>
-                                    <ComboBox x:Name="ComboBoxCurrentStatus" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="107" Margin="0,5,5,5.5" Grid.Row="2" Grid.ColumnSpan="2"/>
-                                    <TextBox x:Name="txtProjectNam" Margin="5" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1"/>
-                                    <TextBox x:Name="txtProjectStartDat" Margin="5" TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="True" BorderThickness="0"/>
-                                    <TextBox x:Name="txtInitialVelocit" Margin="5" TextWrapping="Wrap" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1"/>
+                                    <ComboBox x:Name="ComboBoxAssignedMember" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="107" Margin="0,5,5,5" Grid.Row="0" Grid.ColumnSpan="2" FontStyle="Normal" SelectedValue="{Binding Id}" SelectedValuePath="Id">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0} {1}">
+                                                            <Binding Path="FirstName"/>
+                                                            <Binding Path="LastName"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox x:Name="ComboBoxUpdateSprint" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="107" Margin="0,5,5,5" Grid.Row="1" Grid.ColumnSpan="2" FontStyle="Normal" DisplayMemberPath="Id" />
+                                    <ComboBox x:Name="ComboBoxUpdateStatus" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="107" Margin="0,5,5,5.5" Grid.Row="2" Grid.ColumnSpan="2"  FontStyle="Normal"/>
+                                    <TextBox x:Name="txtStoryPoint" Margin="5" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1"/>
+                                    <TextBox x:Name="txtStoryEstimatedTime" Margin="5" TextWrapping="Wrap" Grid.Column="1" Grid.Row="4" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="True" BorderThickness="0"/>
+                                    <TextBox x:Name="txtStoryActualTime" Margin="5" TextWrapping="Wrap" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1"/>
                                 </Grid>
 
                             </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="233,0.5,0,59" Grid.RowSpan="3" Grid.ColumnSpan="2">
-                                <GroupBox  Header="Tasks" HorizontalAlignment="Right" Height="238" VerticalAlignment="Top" Width="431" FontStyle="Italic">
+                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="233,3,0,7" Grid.RowSpan="3" Grid.ColumnSpan="2">
+                                <GroupBox  Header="Tasks" HorizontalAlignment="Right" Height="230" Width="429" FontStyle="Italic">
                                     <Grid>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="28*"/>
-                                            <RowDefinition Height="20*"/>
-                                            <RowDefinition Height="8*"/>
+                                            <RowDefinition Height="79*"/>
+                                            <RowDefinition Height="73*"/>
+                                            <RowDefinition Height="42*"/>
+                                            <RowDefinition Height="13*"/>
                                         </Grid.RowDefinitions>
                                         <StackPanel Grid.Row="0" Margin="0,0,0,3">
-                                            <Label Content="New Task :" Margin="5" Grid.Column="1"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontStyle="Normal"/>
-                                            <TextBox x:Name="txtNewTask" Margin="54,5,5,5"  Grid.Column="1" TextWrapping="Wrap" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1" Grid.ColumnSpan="2" Height="28"/>
-                                            <Button x:Name="ButtonAddTask" Margin="0 2 0 0"  Foreground="white"  Background="#75b79e" Content="ADD TASK" Height="20" Width="150" />
-                                            <!--<ListBox x:Name="TasksList" Height="105" Grid.Column="1" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" FontStyle="Normal"></ListBox>-->
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="8*"/>
+                                                    <ColumnDefinition Width="97*"/>
+                                                    <ColumnDefinition Width="105*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="38*"/>
+                                                    <RowDefinition Height="11*"/>
+                                                    <RowDefinition Height="11*"/>
+                                                    <RowDefinition Height="0*"/>
+                                                </Grid.RowDefinitions>
+                                                <Label Content="New Task :" Margin="5,5,132,5" Grid.Column="0" Grid.Row="0"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontStyle="Normal" Grid.ColumnSpan="2"/>
+                                                <TextBox x:Name="txtNewTask" Margin="61,5,5,5" Grid.Row="0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1" Grid.ColumnSpan="2" Height="28" Grid.Column="1"/>
+                                                <Button x:Name="ButtonAddTask" Margin="118,2,133,0"  Foreground="white" Grid.ColumnSpan="2" Grid.Row="1" Background="#75b79e" Content="ADD TASK" Height="20" Width="150" Grid.RowSpan="3" Grid.Column="1" />
+                                                <!--<ListBox x:Name="TasksList" Height="105" Grid.Column="1" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" FontStyle="Normal"></ListBox>-->
+                                            </Grid>
                                         </StackPanel>
-                                        <StackPanel Grid.Row="1">
+                                        <StackPanel Grid.Row="1" Margin="0,3,0,0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
@@ -354,13 +392,13 @@
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
                                                 <Label Content="Current Task List :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontStyle="Normal"/>
-                                                <ComboBox x:Name="ComboBoxCurrentTaskList" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="300" Margin="0,5,5,5" Grid.ColumnSpan="2"/>
+                                                <ComboBox x:Name="ComboBoxCurrentTaskList" HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="300" Margin="0,5,5,5" Grid.ColumnSpan="2" FontStyle="Normal"  SelectedValuePath="Id"  DisplayMemberPath="Description"  SelectionChanged="ComboBoxCurrentTaskList_SelectionChanged"/>
                                                 <!--<TextBox x:Name="txtMemberNam" Margin="54,5,5,5" TextWrapping="Wrap" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1" Grid.ColumnSpan="2"/>-->
                                                 <Label Content="Task Actual Time :" Margin="5" HorizontalContentAlignment="Left" Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal"/>
                                                 <TextBox x:Name="txtTaskActualTime" Margin="74.5,5,5,5" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" FontStyle="Normal" CharacterCasing="Upper" IsReadOnly="False" BorderThickness="1"/>
                                             </Grid>
                                         </StackPanel>
-                                        <StackPanel Grid.Row="2">
+                                        <StackPanel Grid.Row="2" Margin="0,10,0,10" Grid.RowSpan="2">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
@@ -374,8 +412,8 @@
 
                                 </GroupBox>
                             </StackPanel>
-                            <Button x:Name="ButtonUpdateUserStory" Foreground="white"  Background="#75b79e" Content="UPDATE USER STORY" HorizontalAlignment="Left" Height="20" VerticalAlignment="Bottom" Width="150" Grid.Column="1" Margin="99,0,0,19" Grid.Row="3" />
-                            <Button x:Name="ButtonDeleteUserStory" Foreground="white"  Background="#75b79e" Content="DELETE USER STORY" HorizontalAlignment="Right" Height="20" Margin="0,0,109,21" VerticalAlignment="Bottom" Width="150"  Grid.Column="2" Grid.Row="3"  />
+                            <Button x:Name="ButtonUpdateUserStory" Foreground="white"  Background="#75b79e" Content="UPDATE USER STORY" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="150" Grid.Column="1" Margin="93,39,0,0" Grid.Row="3" />
+                            <Button x:Name="ButtonDeleteUserStory" Foreground="white"  Background="#75b79e" Content="DELETE USER STORY" HorizontalAlignment="Left" Height="20" Margin="143,39,0,0" VerticalAlignment="Top" Width="150"  Grid.Column="2" Grid.Row="3"  />
 
                         </Grid>
                     </GroupBox>
