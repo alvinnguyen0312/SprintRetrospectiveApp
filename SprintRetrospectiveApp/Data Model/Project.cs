@@ -32,7 +32,27 @@ namespace SprintRetrospectiveApp.Models
 
         public List<Sprint> SprintCollection { get; set; }
 
+        //public List<User> UserCollection { get; set; }
+
+        //public Project(int Id, string ProjectName, string Description, string TeamName, string TeamNumber, string HyperlinkClickup, DateTime StartDate, double InitialVelocity, double HoursPerStoryPoint, List<UserStory> UserStoryCollection, List<Sprint> SprintCollection, List<User> UserCollection)
+           
+        //{
+        //    this.Id = Id;
+        //    this.ProjectName = ProjectName;
+        //    this.Description = Description;
+        //    this.TeamName = TeamName;
+        //    this.TeamNumber = TeamNumber;
+        //    this.HyperlinkClickup = HyperlinkClickup;
+        //    this.StartDate = StartDate;
+        //    this.InitialVelocity = InitialVelocity;
+        //    this.HoursPerStoryPoint = HoursPerStoryPoint;
+        //    this.UserStoryCollection = UserStoryCollection;
+        //    this.SprintCollection = SprintCollection;
+        //    this.UserCollection = UserCollection;
+        //}
+
         public Project(int Id, string ProjectName, string Description, string TeamName, string TeamNumber, string HyperlinkClickup, DateTime StartDate, double InitialVelocity, double HoursPerStoryPoint, List<UserStory> UserStoryCollection, List<Sprint> SprintCollection)
+
         {
             this.Id = Id;
             this.ProjectName = ProjectName;

@@ -1,49 +1,145 @@
 {
-  "projects": [
+  "Projects": [
     {
-      "project_id": 1,
-      "project_name": "SprintRetrospective",
-      "description": "Project managing app",
-      "team_name": "JAN",
-      "team_number": 53,
-      "click_up_link": "https://app.clickup.com/1234698/d/b?p=-1",
-      "start_date": "02-02-20",
-      "initial_volicity": 60.00,
-      "hours_per_storypoint": 2,
-      "user_stories": [
+      "Id": 0,
+      "ProjectName": "",
+      "Description": "My First Project",
+      "TeamName": "JAN",
+      "TeamNumber": "53",
+      "HyperlinkClickup": "https://app.clickup.com/1234698/d/b?p=-1",
+      "StartDate": "2020-02-02T00:00:00",
+      "InitialVelocity": 60.0,
+      "HoursPerStoryPoint": 2.0,
+      "UserStoryCollection": [
         {
-          "story_id": 1,
-          "sprint_id": 1,
-          "description": "Provide a basic menu system for the application",
-          "initial_estimated_hours": 5.5,
-          "actual_hours_worked": 0.0,
-          "last-updated": "time and date go here",
-          "status":  "Testing",
-          "subtasks": [
+          "Id": 0,
+          "UserId": 1,
+          "SprintId": 0,
+          "Description": "Provide a basic menu system for the application",
+          "InitialEstimatedHours": 5.5,
+          "ActualWorkHours": 0.0,
+          "LastUpdatedTime": "2020-02-02T00:00:00",
+          "Status": "Testing",
+          "SubtaskCollection": [
             {
-              "subtask_id": 1,
-              "user_id": 1,
-              "last-updated": "time and date go here",
-              "description": "Create a  basic menu",
-              "initial_estimated_hours": 2.0,
-              "actual_hours_worked": 2.5
+              "Id": 0,
+              "LastUpdatedTime": "2020-02-02T00:00:00",
+              "Description": "Create a  basic menu",
+              "InitialEstimatedHours": 2.0,
+              "ActualWorkHours": 2.5
+            }
+          ]
+        },
+        {
+          "Id": 1,
+          "UserId": 1,
+          "SprintId": 0,
+          "Description": "Provide a basic homepage for the application",
+          "InitialEstimatedHours": 5.5,
+          "ActualWorkHours": 0.0,
+          "LastUpdatedTime": "2020-02-02T00:00:00",
+          "Status": "Testing",
+          "SubtaskCollection": [
+            {
+              "Id": 1,
+              "LastUpdatedTime": "2020-02-02T00:00:00",
+              "Description": "Test the application",
+              "InitialEstimatedHours": 2.0,
+              "ActualWorkHours": 2.5
+            },
+            {
+              "Id": 2,
+              "LastUpdatedTime": "2020-02-02T00:00:00",
+              "Description": "Gather requirements",
+              "InitialEstimatedHours": 2.0,
+              "ActualWorkHours": 2.5
             }
           ]
         }
       ],
-      "sprints": [
+      "SprintCollection": [
         {
-          "sprint_id": 1,
-          "velocity":  0.0
+          "Id": 0,
+          "Velocity": 0.0
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "ProjectName": "Sprint Retrospective",
+      "Description": "Project managing app",
+      "TeamName": "JAN",
+      "TeamNumber": "53",
+      "HyperlinkClickup": "https://app.clickup.com/1234698/d/b?p=-1",
+      "StartDate": "2020-02-02T00:00:00",
+      "InitialVelocity": 60.0,
+      "HoursPerStoryPoint": 2.0,
+      "UserStoryCollection": [
+        {
+          "Id": 0,
+          "UserId": 0,
+          "SprintId": 0,
+          "Description": "Provide a basic menu system for the application",
+          "InitialEstimatedHours": 5.5,
+          "ActualWorkHours": 0.0,
+          "LastUpdatedTime": "2020-02-02T00:00:00",
+          "Status": "Testing",
+          "SubtaskCollection": [
+            {
+              "Id": 4,
+              "LastUpdatedTime": "2020-02-02T00:00:00",
+              "Description": "Take break",
+              "InitialEstimatedHours": 2.0,
+              "ActualWorkHours": 2.5
+            }
+          ]
         }
       ],
-      "users": [
+      "SprintCollection": [
         {
-          "user_id": 1,
-          "first_name": "Test",
-          "last_name": "User",
-          "role":  "Coder"
+          "Id": 0,
+          "Velocity": 0.0
         }
+      ]
+    }
+  ],
+  "Users": [
+    {
+      "Id": 0,
+      "FirstName": "Alvin",
+      "LastName": "Nguyen",
+      "Role": "Developer",
+      "ProjectIdList": [
+        0,
+        1
+      ]
+    },
+    {
+      "Id": 1,
+      "FirstName": "Jason",
+      "LastName": "Oh",
+      "Role": "Developer",
+      "ProjectIdList": [
+        0
+      ]
+    },
+    {
+      "Id": 2,
+      "FirstName": "Nic",
+      "LastName": "Prezio",
+      "Role": "Developer",
+      "ProjectIdList": [
+        0
+      ]
+    },
+    {
+      "Id": 3,
+      "FirstName": "Brian",
+      "LastName": "Turford",
+      "Role": "ProjectManager",
+      "ProjectIdList": [
+        0,
+        1
       ]
     }
   ]

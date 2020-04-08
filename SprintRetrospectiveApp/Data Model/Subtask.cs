@@ -11,8 +11,6 @@ namespace SprintRetrospectiveApp.Models
     {
         public int Id { get; set; }
 
-        public int UserId { get; set; }
-
         public DateTime LastUpdatedTime { get; set; }
 
         public string Description { get; set; }
@@ -21,10 +19,9 @@ namespace SprintRetrospectiveApp.Models
 
         public double ActualWorkHours { get; set; }
 
-        public Subtask(int Id, int UserId, DateTime LastUpdatedTime, string Description, double InitialEstimatedHours, double ActualWorkHours)
+        public Subtask(int Id, DateTime LastUpdatedTime, string Description, double InitialEstimatedHours, double ActualWorkHours)
         {
-            this.Id = Id;
-            this.UserId = UserId;
+            this.Id = Id; 
             this.LastUpdatedTime = LastUpdatedTime;
             this.Description = Description;
             this.InitialEstimatedHours = InitialEstimatedHours;
@@ -33,7 +30,7 @@ namespace SprintRetrospectiveApp.Models
 
         public override string ToString()
         {
-            return $"ID: {Id}\nUser ID: {UserId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}";
+            return $"ID: {Id}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}";
         }
     }
 }

@@ -12,6 +12,7 @@ namespace SprintRetrospectiveApp.Models
     public class UserStory
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         public int SprintId { get; set; }
         public string Description { get; set; }
         public double InitialEstimatedHours { get; set; }
@@ -22,9 +23,10 @@ namespace SprintRetrospectiveApp.Models
         public List<Subtask> SubtaskCollection { get; set; }
 
 
-        public UserStory(int Id, int SprintId, string Description, double InitialEstimatedHours, double ActualWorkHours, DateTime LastUpdatedTime, string Status, List<Subtask> SubtaskCollection)
+        public UserStory(int Id, int UserId, int SprintId, string Description, double InitialEstimatedHours, double ActualWorkHours, DateTime LastUpdatedTime, string Status, List<Subtask> SubtaskCollection)
         {
             this.Id = Id;
+            this.UserId = UserId;
             this.SprintId = SprintId;
             this.Description = Description;
             this.InitialEstimatedHours = InitialEstimatedHours;
@@ -36,7 +38,11 @@ namespace SprintRetrospectiveApp.Models
 
         public override string ToString()
         {
-            return $"Id: {Id}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
+            //return $"Id: {Id}\nUserId: {UserId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
+
+            return $"Current Sprint: {SprintId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
         }
+
+        
     }
 }
