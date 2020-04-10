@@ -49,13 +49,13 @@ namespace SprintRetrospectiveApp.Data_Load
                                 subtaskList.Add(new Subtask((int)subtaskItem.Id,
                                                             (DateTime)subtaskItem.LastUpdatedTime,
                                                             (string)subtaskItem.Description,
-                                                            (double)subtaskItem.InitialEstimatedHours,
                                                             (double)subtaskItem.ActualWorkHours));
                             }
 
                             storyList.Add(new UserStory((int)userStoryItem.Id,
                                                         (int)userStoryItem.UserId,
                                                         (int)userStoryItem.SprintId,
+                                                        (int)userStoryItem.StoryPoint,
                                                         (string)userStoryItem.Description,
                                                         (double)userStoryItem.InitialEstimatedHours,
                                                         (double)userStoryItem.ActualWorkHours,
@@ -74,7 +74,6 @@ namespace SprintRetrospectiveApp.Data_Load
                         projectObject = new Project(
                             (int)item.Id,
                             (string)item.ProjectName,
-                            (string)item.Description,
                             (string)item.TeamName,
                             (string)item.TeamNumber,
                             (string)item.HyperlinkClickup,
@@ -97,7 +96,7 @@ namespace SprintRetrospectiveApp.Data_Load
 
                         projectIdList = new List<int>();
 
-                        foreach (var projectId in item.ProjectIdList)
+                        foreach (var projectId in item.ProjectIdCollection)
                         {
                             projectIdList.Add(Convert.ToInt32(projectId));
                         }
@@ -137,9 +136,9 @@ namespace SprintRetrospectiveApp.Data_Load
                 //this is a temporary path for testing
                 //uncomment the last two lines 
                 //when you are ready to immplement it (this will overwrite the data.json file)
-                File.WriteAllText(@"c:\path.json", json);
-                //string path = Path.GetDirectoryName(Directory.GetCurrentDirectory());
-                //File.WriteAllText(path + "\\data.json", json);
+                //File.WriteAllText(@"c:\temp\path.json", json);
+                string path = Path.GetDirectoryName(Directory.GetCurrentDirectory());
+                File.WriteAllText(path + "\\data.json", json);
             }
             catch (Exception ex)
             {

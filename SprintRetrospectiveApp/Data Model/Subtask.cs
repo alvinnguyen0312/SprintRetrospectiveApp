@@ -3,8 +3,6 @@
  * 
  */
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 namespace SprintRetrospectiveApp.Models
 {
     public class Subtask
@@ -14,23 +12,20 @@ namespace SprintRetrospectiveApp.Models
         public DateTime LastUpdatedTime { get; set; }
 
         public string Description { get; set; }
-        
-        public double InitialEstimatedHours { get; set; }
 
         public double ActualWorkHours { get; set; }
 
-        public Subtask(int Id, DateTime LastUpdatedTime, string Description, double InitialEstimatedHours, double ActualWorkHours)
+        public Subtask(int Id, DateTime LastUpdatedTime, string Description, double ActualWorkHours)
         {
             this.Id = Id; 
             this.LastUpdatedTime = LastUpdatedTime;
             this.Description = Description;
-            this.InitialEstimatedHours = InitialEstimatedHours;
             this.ActualWorkHours = ActualWorkHours;
         }
 
         public override string ToString()
         {
-            return $"Description: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}";
+            return $"Description: {Description}\nActualWorkHours: {ActualWorkHours}";
         }
     }
 }

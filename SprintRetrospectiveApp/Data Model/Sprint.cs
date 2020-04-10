@@ -1,10 +1,6 @@
 ﻿/**Purpose: this class models data related to Sprint
  * 
  */
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace SprintRetrospectiveApp.Models
 {
     public class Sprint

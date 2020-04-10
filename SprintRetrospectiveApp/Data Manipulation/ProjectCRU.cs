@@ -13,61 +13,6 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         private List<Project> projectList = new List<Project>();
         private List<User> userList = new List<User>();
 
-        // Alvin Version
-        //private List<int> userProjectList1 = new List<int>();
-        //private List<int> userProjectList2 = new List<int>();
-
-        //public ProjectCRU()
-        //{
-        //    //Load all project into container projectList
-        //    //TODO
-        //    //Testing
-        //    List<UserStory> userStoryColl = new List<UserStory>();
-        //    List<Sprint> sprintColl = new List<Sprint>();
-
-        //    //Add first project
-        //    projectList.Add(new Project(0, "My First Project", "Project managing app", "JAN", "53", "https://app.clickup.com/1234698/d/b?p=-1", DateTime.UtcNow, 60.00, 2, userStoryColl, sprintColl));
-        //    //Add two user stories, each user story has a different collection of subtask
-        //    //First subtask collection
-        //    List<Subtask> subTaskColl1 = new List<Subtask>();
-        //    subTaskColl1.Add(new Subtask(0, 0, DateTime.Now, "Create a basic menu subtask 1", 2.0, 2.5));
-        //    subTaskColl1.Add(new Subtask(1, 1, DateTime.Now, "Create a basic menu subtask 2", 3.0, 3.5));
-        //    subTaskColl1.Add(new Subtask(2, 1, DateTime.Now, "Create a basic menu subtask 3", 4.0, 4.5));
-
-        //    //Second subtask collection
-        //    List<Subtask> subTaskColl2 = new List<Subtask>();
-        //    subTaskColl2.Add(new Subtask(0, 0, DateTime.Now, "Create a basic homepage subtask 1", 2.0, 2.5));
-        //    subTaskColl2.Add(new Subtask(1, 2, DateTime.Now, "Create a basic homepage subtask 2", 3.0, 3.5));
-        //    subTaskColl2.Add(new Subtask(2, 2, DateTime.Now, "Create a basic homepage subtask 3", 4.0, 4.5));
-
-        //    UserStory us1 = new UserStory(0, 0, "Provide a basic menu system for the application", 5.5, 4.0, DateTime.Now, "Planned", subTaskColl1);
-        //    UserStory us2 = new UserStory(1, 1, "Provide a basic homepage for the application", 6.5, 7.0, DateTime.Now, "Delivered", subTaskColl2);
-        //    userStoryColl.Add(us1);
-        //    userStoryColl.Add(us2);
-
-        //    //print collection
-        //    sprintColl.Add(new Sprint(0, 20));
-        //    sprintColl.Add(new Sprint(1, 20));
-        //    sprintColl.Add(new Sprint(2, 20));
-
-
-        //    projectList.Add(new Project(1, "My Second Project", "Project managing app", "JAN", "53", "https://app.clickup.com/1234698/d/b?p=-1", DateTime.UtcNow, 60.00, 2, userStoryColl, sprintColl));
-
-        //    userProjectList1.Add(0);
-        //    //Add users to the List
-        //    userList.Add(new User(0, "Alvin", "Nguyen", "Developer", userProjectList1));
-        //    userList.Add(new User(1, "Jason", "Oh", "Developer", userProjectList1));
-
-
-
-        //    userProjectList2.Add(0);
-        //    userProjectList2.Add(1);
-
-        //    userList.Add(new User(2, "Nic", "Prezio", "Developer", userProjectList2));
-        //    userList.Add(new User(3, "Brian", "Turford", "ProjectManager", userProjectList2));
-
-
-
         public ProjectCRU()
         {
             projectList = ReadWrite_Two_Objects.ReadDataFile("projects").projects;
@@ -93,7 +38,6 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         {
             return userList;
         }
-
 
         public User GetUserById(int userId)
         {
@@ -124,7 +68,6 @@ namespace SprintRetrospectiveApp.Data_Manipulation
 
         }
 
-
         /// <summary>
         /// Get a collection of user story by project ID
         /// </summary>
@@ -143,9 +86,22 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         public List<int> GetAllUserIdsByProject(int projectId)
         
         {
-            var allUserStories = GetAllUserStoryByProject(projectId);
-            return allUserStories.Select(st => st.UserId).Distinct().ToList();
-            
+            //var allUserStories = GetAllUserStoryByProject(projectId);
+            List<User> users = new List<User>();
+            foreach (var user in userList)
+            {
+                if (user.ProjectIdCollection.Contains(projectId))
+                {
+                    if (!users.Contains(user)) //avoid duplicate user
+                    {
+                        if(user.Role != "ProjectManager")
+                            users.Add(user);
+                    }
+                }
+            }
+            return users.Select(u => u.Id).Distinct().ToList();
+
+            //return allUserStories.Select(st => st.UserId).Distinct().ToList();      
         }
 
         /// <summary>
@@ -155,19 +111,21 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         /// <returns></returns>
         public List<User> GetAllUsersByProject(int projectId)
         {
-            var userIdsByProject = GetAllUserIdsByProject(projectId);
-
-            List<User> userListBytProject = new List<User>();
-
-            foreach (var userId in userIdsByProject)
+            
+            List<User> users = new List<User>();
+            foreach (var user in userList)
             {
-                var pr = userList.Where(u => u.Id == userId).FirstOrDefault();
-                userListBytProject.Add(pr);
+                if (user.ProjectIdCollection.Contains(projectId))
+                {
+                    if (!users.Contains(user)) //avoid duplicate user
+                    {
+                        if (user.Role != "ProjectManager")
+                            users.Add(user);
+                    }
+                }
             }
-
-            return userListBytProject;
+            return users;
         }
-
 
         /// <summary>
         /// Get all users in a sprint
@@ -178,10 +136,9 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         public List<int> GetAllUserIdsBySprint(int sprintID, int projectId)
         {
             var allUserStories = GetAllUserStoryBySprintID(sprintID, projectId);
+
             return allUserStories.Select(st => st.UserId).Distinct().ToList();
         }
-
-
 
         /// <summary>
         /// Get all sprints of one project 
@@ -234,15 +191,12 @@ namespace SprintRetrospectiveApp.Data_Manipulation
 
         }
 
-
-
         /// <summary>
         /// Get list of user story by user ID
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="projectID"></param>
         /// <returns></returns>
-
         public List<UserStory> GetAllUserStoryByUserID(int userID, int projectID)
         {
             //List<UserStory> storyList = new List<UserStory>();
@@ -252,6 +206,7 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             return allUserStoriesByProject.Where(st => st.UserId == userID).ToList();
 
         }
+
         /// <summary>
         /// Get user stories by Sprint ID
         /// </summary>
@@ -293,12 +248,13 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             //loop through each user story
             foreach (var us in allUserStoriesByUser)
             {
-                //check if user has any subtask in each story
-                var hasSubtask = (us.SubtaskCollection.Count > 0) ? true : false;
-                if (hasSubtask)
-                {
-                    totalTime += us.SubtaskCollection.Select(st => st.InitialEstimatedHours).Sum();
-                }
+                totalTime += us.InitialEstimatedHours;
+                ////check if user has any subtask in each story
+                //var hasSubtask = (us.SubtaskCollection.Count > 0) ? true : false;
+                //if (hasSubtask)
+                //{
+                //    totalTime += us.SubtaskCollection.Select(st => st.InitialEstimatedHours).Sum();
+                //}
             }
             return totalTime;
         }
@@ -333,24 +289,26 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         /// <param name="userID"></param>
         /// <param name="projectID"></param>
         /// <returns></returns>
-        public double GetTotalEstimatedTimeByUserIdAndStoryId(int userID, int storyId, int projectID)
-        {
-            double totalTime = 0.0;
-            //get all userstory by projectID
-            var allUserStoriesByProject = GetAllUserStoryByProject(projectID);
+        //public double GetTotalEstimatedTimeByUserIdAndStoryId(int userID, int storyId, int projectID)
+        //{
+        //    double totalTime = 0.0;
+        //    //get all userstory by projectID
+        //    var allUserStoriesByProject = GetAllUserStoryByProject(projectID);
 
-            //get selected userstory
-            var selectedStory = allUserStoriesByProject.Where(us => us.Id == storyId).FirstOrDefault();
+        //    //get selected userstory
+        //    var selectedStory = allUserStoriesByProject.Where(us => us.Id == storyId).FirstOrDefault();
 
-            //check if user has any subtask in selected story
-            var hasSubtask = (selectedStory.SubtaskCollection.Count > 0) ? true : false;
-            if (hasSubtask)
-            {
-                totalTime += selectedStory.SubtaskCollection.Select(st => st.InitialEstimatedHours).Sum();
-            }
+           
+        //    return selectedStory.InitialEstimatedHours;
+        //    ////check if user has any subtask in selected story
+        //    //var hasSubtask = (selectedStory.SubtaskCollection.Count > 0) ? true : false;
+        //    //if (hasSubtask)
+        //    //{
+        //    //    totalTime += selectedStory.SubtaskCollection.Select(st => st.InitialEstimatedHours).Sum();
+        //    //}
 
-            return totalTime;
-        }
+        //    //return totalTime;
+        //}
 
         /// <summary>
         /// Get total actual time by user ID and storyId
@@ -398,17 +356,17 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         /// <param name="subTaskID"></param>
         /// <param name="projectID"></param>
         /// <returns></returns>
-        public double GetActualTimeBySubTaskAndUserStory(int storyID, int subTaskID, int projectID)
-        {
-            //get all userstory by projectID
-            var allUserStoriesByProject = GetAllUserStoryByProject(projectID);
+        //public double GetActualTimeBySubTaskAndUserStory(int storyID, int subTaskID, int projectID)
+        //{
+        //    //get all userstory by projectID
+        //    var allUserStoriesByProject = GetAllUserStoryByProject(projectID);
 
-            //get selected userstory
-            var selectedStory = allUserStoriesByProject.Where(us => us.Id == storyID).FirstOrDefault();
+        //    //get selected userstory
+        //    var selectedStory = allUserStoriesByProject.Where(us => us.Id == storyID).FirstOrDefault();
 
-            return selectedStory.SubtaskCollection.Where(st => st.Id == subTaskID).FirstOrDefault().ActualWorkHours;
+        //    return selectedStory.SubtaskCollection.Where(st => st.Id == subTaskID).FirstOrDefault().ActualWorkHours;
 
-        }
+        //}
 
         /// <summary>
         /// Get estimated time by subtask and user story
@@ -417,17 +375,17 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         /// <param name="subTaskID"></param>
         /// <param name="projectID"></param>
         /// <returns></returns>
-        public double GetEstimatedTimeBySubTaskAndUserStory(int storyID, int subTaskID, int projectID)
-        {
-            //get all userstory by projectID
-            var allUserStoriesByProject = GetAllUserStoryByProject(projectID);
+        //public double GetEstimatedTimeBySubTaskAndUserStory(int storyID, int subTaskID, int projectID)
+        //{
+        //    //get all userstory by projectID
+        //    var allUserStoriesByProject = GetAllUserStoryByProject(projectID);
 
-            //get selected userstory
-            var selectedStory = allUserStoriesByProject.Where(us => us.Id == storyID).FirstOrDefault();
+        //    //get selected userstory
+        //    var selectedStory = allUserStoriesByProject.Where(us => us.Id == storyID).FirstOrDefault();
 
-            return selectedStory.SubtaskCollection.Where(st => st.Id == subTaskID).FirstOrDefault().InitialEstimatedHours;
+        //    return selectedStory.SubtaskCollection.Where(st => st.Id == subTaskID).FirstOrDefault().InitialEstimatedHours;
 
-        }
+        //}
 
         /// <summary>
         /// Get total estimated time for a specific user story
@@ -443,7 +401,8 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             //get selected userstory
             var selectedStory = allUserStoriesByProject.Where(us => us.Id == storyID).FirstOrDefault();
 
-            return selectedStory.SubtaskCollection.Select(st => st.InitialEstimatedHours).Sum();
+            return selectedStory.InitialEstimatedHours;
+            //return selectedStory.SubtaskCollection.Select(st => st.InitialEstimatedHours).Sum();
 
         }
 
@@ -508,16 +467,16 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         /// <param name="subTaskID"></param>
         /// <param name="StoryID"></param>
         /// <param name="projectID"></param>
-        public void UpdateEstimatedTimeBySubTask(double newTime, int subTaskID, int StoryID, int projectID)
-        {
-            //get all userstory by projectID
-            var allSubTasks = GetAllSubtasksByUserStory(StoryID, projectID);
+        //public void UpdateEstimatedTimeBySubTask(double newTime, int subTaskID, int StoryID, int projectID)
+        //{
+        //    //get all userstory by projectID
+        //    var allSubTasks = GetAllSubtasksByUserStory(StoryID, projectID);
 
-            allSubTasks.Where(st => st.Id == subTaskID).FirstOrDefault().InitialEstimatedHours = newTime;
+        //    allSubTasks.Where(st => st.Id == subTaskID).FirstOrDefault().InitialEstimatedHours = newTime;
 
-            ReloadData();
+        //    ReloadData();
 
-        }
+        //}
 
         /// <summary>
         /// update actual time by subtask
@@ -530,6 +489,21 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         {
             //get all userstory by projectID
             var allSubTasks = GetAllSubtasksByUserStory(StoryID, projectID);
+
+            var allStories = GetAllUserStoryByProject(projectID);
+
+            foreach (var us in allStories)
+            {
+                //look for a specific user story
+                if (us.Id == StoryID)
+                {
+
+                    us.ActualWorkHours += newTime;
+
+
+                }
+
+            }
 
             allSubTasks.Where(st => st.Id == subTaskID).FirstOrDefault().ActualWorkHours = newTime;
 
@@ -547,7 +521,7 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         public double GetScoreByUserIdAndStoryId(int userID, int storyID, int projectID)
         {
             double totalActualTime = GetTotalActualTimeByUserIdAndStoryId(userID, storyID, projectID);
-            double totalEstimatedTime = GetTotalEstimatedTimeByUserIdAndStoryId(userID, storyID, projectID);
+            double totalEstimatedTime = GetEstimatedTimeByUserStory(storyID, projectID);
             //formular (actual - estimated)/actual * 100 -- if negative result means less than % the estimated time, or positive means more than % the estimated time
             return (totalActualTime - totalEstimatedTime) / totalActualTime * 100;
         }
@@ -564,6 +538,7 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             //formular (actual - estimated)/actual * 100 -- if negative result means less than % the estimated time, or positive means more than % the estimated time
             return (totalActualTime - totalEstimatedTime) / totalActualTime * 100;
         }
+
         /// <summary>
         /// this method will calculate the estimated accuracy of project velocity (based on current/selected sprint)
         /// </summary>
@@ -572,6 +547,11 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         {
             //get actual velocity
             double actualVelocity = GetActualVelocity(projectID, sprintID);
+
+            // If actualVelocity is 0, returns 0
+            if (actualVelocity == 0)
+                return 0;
+
             //get initial velocity
             double initialVelocity = projectList[projectID].InitialVelocity;
             return (actualVelocity - initialVelocity) / actualVelocity * 100;
@@ -595,6 +575,7 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             }
             return totalTime;
         }
+
         /// <summary>
         /// Get actual velocity based on current project and selected sprint
         /// </summary>
@@ -606,6 +587,10 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             //get team size per sprint
             int teamSize = GetAllUserIdsBySprint(sprintID, projectID).Count;
 
+            // If there is no assigend stories for the sprint
+            if (teamSize == 0)
+                return 0;
+
             //get hours per story point
             double hoursPerStoryPoint = projectList[projectID].HoursPerStoryPoint;
             //get total actual time for current (selected sprint)
@@ -616,6 +601,7 @@ namespace SprintRetrospectiveApp.Data_Manipulation
 
             return actualPointsPerPersonPerSprint * teamSize;
         }
+
         /// <summary>
         /// Add new project to project list
         /// </summary>
@@ -629,13 +615,66 @@ namespace SprintRetrospectiveApp.Data_Manipulation
         /// <param name="HoursPerStoryPoint"></param>
         /// <param name="UserStoryCollection"></param>
         /// <param name="SprintCollection"></param>
-        public void AddProject(string ProjectName, string Description, string TeamName, string TeamNumber, string HyperlinkClickup, DateTime StartDate, double InitialVelocity, double HoursPerStoryPoint, List<UserStory> UserStoryCollection, List<Sprint> SprintCollection)
+        //public void AddProject(string ProjectName, string TeamName, string TeamNumber, string HyperlinkClickup,
+        //    DateTime StartDate, double InitialVelocity, double HoursPerStoryPoint, List<User> teamMembers)
+        //{
+
+        //    if the newly added project is the first one, then set ID to 0, or else set to ID of the previous project in the list plus 1
+        //    int projectID = (projectList.Count > 0) ? projectList[projectList.Count - 1].Id + 1 : 0;
+        //    add project to the list
+        //    projectList.Add(new Project(projectID, ProjectName, TeamName, TeamNumber, HyperlinkClickup, StartDate, InitialVelocity, HoursPerStoryPoint, new List<UserStory>(), new List<Sprint>()));
+
+        //    ReloadData();
+        //}
+
+        public void AddProject(string ProjectName, string TeamName, string TeamNumber, string HyperlinkClickup, DateTime StartDate, double InitialVelocity, double HoursPerStoryPoint, List<UserStory> UserStoryCollection, List<User> users)
         {
             //if the newly added project is the first one, then set ID to 1, or else set to ID of the previous project in the list plus 1
-            int projectID = (projectList.Count > 0) ? projectList[projectList.Count - 1].Id + 1 : 1;
-            //add project to the list 
-            projectList.Add(new Project(projectID, ProjectName, Description, TeamName, TeamNumber, HyperlinkClickup, StartDate, InitialVelocity, HoursPerStoryPoint, new List<UserStory>(), new List<Sprint>()));
+            int projectID = (projectList.Count > 0) ? projectList[projectList.Count - 1].Id + 1 : 0;
+
+            // Calculate total points
+            double totalPoints = UserStoryCollection.Select(us => us.StoryPoint).Sum();
+
+            // create a list of sprint
+            var sprintList = CreateSprintsForProject(projectID, InitialVelocity, totalPoints);
+
+            // Add Initial Estimated Hours to each user story
+            for (int i  = 0; i < UserStoryCollection.Count; i++)
+            {
+                UserStoryCollection[i].InitialEstimatedHours = UserStoryCollection[i].StoryPoint * HoursPerStoryPoint;
+            }
+
+            // Add project to the list 
+            projectList.Add(new Project(projectID, ProjectName, TeamName, TeamNumber, HyperlinkClickup, StartDate, InitialVelocity, HoursPerStoryPoint, UserStoryCollection, sprintList));
+
+            // Add a new Project to each members' projectCollection
+            foreach(var user in users)
+            {
+                AddMemberToProject(user.Id, projectID);
+            }
+
+            ReloadData();
         }
+
+        public List<Sprint> CreateSprintsForProject(int projectID, double initialVelocity, double totalPoints)
+        {
+            List<Sprint> sprintList = new List<Sprint>();
+            //double totalPoints = projectList[projectID].UserStoryCollection.Select(us => us.StoryPoint).Sum();
+            int calculatedSprintNumber = (int)Math.Ceiling(totalPoints / initialVelocity);
+            for (int i = 0; i < calculatedSprintNumber; i++)
+            {
+                sprintList.Add(new Sprint(i, initialVelocity));
+            }
+            return sprintList;
+        }
+
+        //add user ID to projectID list, starting from 0
+        public void AddMemberToProject(int userID, int newProjectId)
+        {
+            //int projectID = projectList.Count > 0 ? projectList.Count + 1 : 0;
+            userList[userID].ProjectIdCollection.Add(newProjectId);
+        }
+
         /// <summary>
         /// This method used to assign user to a story
         /// </summary>
@@ -672,7 +711,7 @@ namespace SprintRetrospectiveApp.Data_Manipulation
             ReloadData();
         }
 
-        public void AddTaskToUserStory(int storyID, int projectID, int UserId, DateTime LastUpdatedTime, string Description, double InitialEstimatedHours, double ActualWorkHours)
+        public void AddTaskToUserStory(int storyID, int projectID, DateTime LastUpdatedTime, string Description, double ActualWorkHours)
         {
             //get all user stories by project
             var allStories = GetAllUserStoryByProject(projectID);
@@ -681,15 +720,74 @@ namespace SprintRetrospectiveApp.Data_Manipulation
                 //look for a specific user story
                 if (us.Id == storyID)
                 {
-                    var subTaskId = new Random().Next(1000);
-                    us.SubtaskCollection.Add(new Subtask(subTaskId, LastUpdatedTime, Description, InitialEstimatedHours, ActualWorkHours));
+
+                    //get ID in sequence
+                    var subTaskId = us.SubtaskCollection.Count > 0 ? us.SubtaskCollection.Count : 0;
+                    us.SubtaskCollection.Add(new Subtask(subTaskId, LastUpdatedTime, Description, ActualWorkHours));
                 }
+
             }
+            ReloadData();
         }
 
+        /// <summary>
+        /// method calculates the estimate time based on story point
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="storyPoint"></param>
+        /// <returns></returns>
+        public double CalculateEstimatedTimeByStoryPoint(int projectID, int storyPoint)
+        {
+            return projectList[projectID].HoursPerStoryPoint * storyPoint;
+        }
+
+        public UserStory CreateNewUserStory(int Id, string description, int storyPoint)
+        {
+           // int userStoryID = (projectList[projectID].UserStoryCollection.Count > 0) ? projectList[projectID].UserStoryCollection.Count + 1 : 0;
+            return new UserStory(Id, description, storyPoint);
+        }
+
+        public void UpdateUserStory(int projectID, int storyID, int userID, int sprintID, string status, int storyPoint, double actualWorkHours)
+        {
+            var allStories = GetAllUserStoryByProject(projectID);
+            allStories.Where(story => story.Id == storyID).FirstOrDefault().UserId = userID;
+            allStories.Where(story => story.Id == storyID).FirstOrDefault().SprintId = sprintID;
+            allStories.Where(story => story.Id == storyID).FirstOrDefault().Status = status;
+            allStories.Where(story => story.Id == storyID).FirstOrDefault().StoryPoint = storyPoint;
+            allStories.Where(story => story.Id == storyID).FirstOrDefault().ActualWorkHours = actualWorkHours;
+            ReloadData();
+        }
+
+        //get project by projectID
+        public Project GetProjectByID(int projectID)
+        {
+            return projectList[projectID];
+        }
+
+        //get new velocity from the last sprint object in sprint list
+        public double GetNewVelocity(int projectID)
+        {
+            int lastSprintIdx = projectList[projectID].SprintCollection.Count - 1;
+            return projectList[projectID].SprintCollection.ElementAt(lastSprintIdx).Velocity;
+        }
+
+        //get initial velocity (velocity of the first sprint only)
+        public double GetInitialVelocity(int projectID)
+        {
+            return projectList[projectID].SprintCollection.ElementAt(0).Velocity;
+        }
+
+        /// <summary>
+        /// Reload data method 
+        /// </summary>
         public void ReloadData()
         {
-            //TODO:
+            //Write any change back to data file
+            ReadWrite_Two_Objects.WriteToDataFile(projectList, userList);
+
+            //Read all data again
+            projectList = ReadWrite_Two_Objects.ReadDataFile("projects").projects;
+            userList = ReadWrite_Two_Objects.ReadDataFile("users").users;
         }
 
 

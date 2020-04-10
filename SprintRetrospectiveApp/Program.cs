@@ -41,7 +41,7 @@ namespace SprintRetrospectiveApp
             Console.WriteLine(totalTime);
 
             //Get total estimated time by user ID and storyID
-            double totalTime1 = proj.GetTotalEstimatedTimeByUserIdAndStoryId(0, 1, 0);
+            double totalTime1 = proj.GetTotalEstimatedTimeByUser(0, 0);
             Console.WriteLine(totalTime1);
 
             //Get user story by Sprint ID

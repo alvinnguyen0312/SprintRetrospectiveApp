@@ -14,6 +14,7 @@ namespace SprintRetrospectiveApp.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public int SprintId { get; set; }
+        public int StoryPoint { get; set; }
         public string Description { get; set; }
         public double InitialEstimatedHours { get; set; }
         public double ActualWorkHours { get; set; }
@@ -23,11 +24,27 @@ namespace SprintRetrospectiveApp.Models
         public List<Subtask> SubtaskCollection { get; set; }
 
 
-        public UserStory(int Id, int UserId, int SprintId, string Description, double InitialEstimatedHours, double ActualWorkHours, DateTime LastUpdatedTime, string Status, List<Subtask> SubtaskCollection)
+        public UserStory(int Id, string description, int storyPoint)
+        {
+            this.Id = Id;
+            this.UserId = 0;
+            this.SprintId = 0;
+            this.StoryPoint = storyPoint;
+            this.Description = description;
+            this.InitialEstimatedHours = 0;
+            this.ActualWorkHours = 0;
+            this.LastUpdatedTime = DateTime.Now;
+            this.Status = "";
+            this.SubtaskCollection = new List<Subtask>();
+
+        }
+
+        public UserStory(int Id, int UserId, int SprintId, int StoryPoint, string Description, double InitialEstimatedHours, double ActualWorkHours, DateTime LastUpdatedTime, string Status, List<Subtask> SubtaskCollection)
         {
             this.Id = Id;
             this.UserId = UserId;
             this.SprintId = SprintId;
+            this.StoryPoint = StoryPoint;
             this.Description = Description;
             this.InitialEstimatedHours = InitialEstimatedHours;
             this.ActualWorkHours = ActualWorkHours;
@@ -39,8 +56,7 @@ namespace SprintRetrospectiveApp.Models
         public override string ToString()
         {
             //return $"Id: {Id}\nUserId: {UserId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
-
-            return $"Current Sprint: {SprintId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
+            return $"SprintId: {SprintId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
         }
 
         
