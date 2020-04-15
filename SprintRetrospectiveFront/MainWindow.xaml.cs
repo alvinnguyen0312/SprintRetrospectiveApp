@@ -38,6 +38,7 @@ namespace SprintRetrospectiveFront
         private int selectedUpdateSprintInUserStory;
         private string selectedUpdateStatusInUserStory;
         private int selectedAssigningUserInUserStory;
+        private int selectedMemberId = -1;
 
         private List<string> comboBoxCategories = new List<string>() { "Sprints", "Users", "Status" };
         private string currentSelectedCategory;
@@ -63,7 +64,12 @@ namespace SprintRetrospectiveFront
         // User Login DropList
         private void ComboBoxUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Reset Project
+            ComboBoxProject.SelectedIndex = -1;
+            txtNewVelocity.Clear();
+
             ResetUIByUser();
+            //ResetUserStorySection();
 
             loggedInUserId = Convert.ToInt32(ComboBoxUser.SelectedValue);
 
@@ -128,11 +134,11 @@ namespace SprintRetrospectiveFront
             txtProjectStartDate.Text = "";
             txtInitialVelocity.IsReadOnly = true;
             txtInitialVelocity.Text = "";
-            txtNewVelocity.Text = "";
             txtHoursPerPoint.IsReadOnly = true;
             txtHoursPerPoint.Text = "";
             txtHyperLink.IsReadOnly = true;
             txtHyperLink.Text = "";
+            txtNewUpdatedVelocity.Text = "";
             ComboBoxMember.IsEnabled = false;
             ButtonHyperLink.IsEnabled = false;
 
@@ -180,6 +186,7 @@ namespace SprintRetrospectiveFront
         private void ComboBoxProject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ResetUIByUser();
+            //ResetUserStorySection();
 
             // Reset
             teamMembersInScore = new List<User>();
@@ -267,8 +274,8 @@ namespace SprintRetrospectiveFront
                 ComboBoxSelectedUserStory.ItemsSource = new List<UserStory>(); ;
                 ComboBoxSelectedUserStory.ItemsSource = userStoriesByProject;
 
-                ComboBoxAssignedMember.ItemsSource = new List<User>();
-                ComboBoxAssignedMember.ItemsSource = teamMembersInScore;
+                //ComboBoxAssignedMember.ItemsSource = new List<User>();
+                //ComboBoxAssignedMember.ItemsSource = teamMembersInScore;
 
                 // Initialize Project Information
                 currentProject = project.GetProjectByID(currentProjectId);
@@ -289,7 +296,7 @@ namespace SprintRetrospectiveFront
                 txtTeamName.Text = "";
                 txtTeamNumber.Text = "";
                 txtProjectName.Text = "";
-                txtProjectStartDate.Text = "e.g. Jan 1, 2020";
+                txtProjectStartDate.Text = "mm/dd/yyyy";
                 txtInitialVelocity.Text = "";
                 txtNewUpdatedVelocity.Text = "";
                 txtHoursPerPoint.Text = "";
@@ -324,7 +331,6 @@ namespace SprintRetrospectiveFront
                 ComboBoxMember.IsEnabled = true;
                 ButtonHyperLink.IsEnabled = false;
                 TeamMembersAddList.IsEnabled = true;
-                txtProjectStartDate.Text = "e.g. Jan 1, 2020";
 
                 // Reset UI [NewUserStory]
                 txtNewUserStory.IsReadOnly = false;
@@ -360,6 +366,7 @@ namespace SprintRetrospectiveFront
                 // Reset UI [ProjectVelocityUpdate]
                 ButtonUpdateVelocity.IsEnabled = false;
                 txtNewVelocity.IsReadOnly = true;
+                txtNewVelocity.Text = "";
                 ComboBoxSprint.IsEnabled = false;
 
                 // Reset UI [AllUserStories]
@@ -424,8 +431,8 @@ namespace SprintRetrospectiveFront
                 ComboBoxSelectedUserStory.ItemsSource = new List<UserStory>();
                 ComboBoxSelectedUserStory.ItemsSource = userStoriesByProject;
 
-                ComboBoxAssignedMember.ItemsSource = new List<User>(); ;
-                ComboBoxAssignedMember.ItemsSource = teamMembersInScore;
+                //ComboBoxAssignedMember.ItemsSource = new List<User>(); ;
+                //ComboBoxAssignedMember.ItemsSource = teamMembersInScore;
 
                 // Initialize Project Information
                 currentProject = project.GetProjectByID(currentProjectId);
@@ -472,13 +479,13 @@ namespace SprintRetrospectiveFront
             {
                 txtTotalEstimatedTime.Text = project.GetTotalEstimatedTimeByUser(selectedTeamMemberIdInScore, currentProjectId).ToString() + " hour(s)";
                 txtTotalActualTime.Text = project.GetTotalActualTimeByUser(selectedTeamMemberIdInScore, currentProjectId).ToString() + " hour(s)";
-                txtScore.Text = project.GetScoreByUserId(selectedTeamMemberIdInScore, currentProjectId).ToString();
+                txtScore.Text = project.GetScoreByUserId(selectedTeamMemberIdInScore, currentProjectId).ToString() + " %";
             }
             else
             {
                 txtTotalEstimatedTime.Text = project.GetEstimatedTimeByUserStory(selectedUserStoryIdInScore, currentProjectId).ToString() + " hour(s)";
                 txtTotalActualTime.Text = project.GetTotalActualTimeByUserIdAndStoryId(selectedTeamMemberIdInScore, selectedUserStoryIdInScore, currentProjectId).ToString() + " hour(s)";
-                txtScore.Text = project.GetScoreByUserIdAndStoryId(selectedTeamMemberIdInScore, selectedUserStoryIdInScore, currentProjectId).ToString();
+                txtScore.Text = project.GetScoreByUserIdAndStoryId(selectedTeamMemberIdInScore, selectedUserStoryIdInScore, currentProjectId).ToString() + " %";
             }  
         }
         #endregion
@@ -497,14 +504,22 @@ namespace SprintRetrospectiveFront
             if(txtNewVelocity.Text.Length != 0)
             {
                 double newVelocity = Convert.ToDouble(txtNewVelocity.Text);
-                project.UpdateVelocityForSprint(newVelocity, selectedSprintInVelocityUpdate, currentProjectId);
-                MessageBox.Show("New Velocity Updated!");
 
                 // Reset
                 txtEstimatedAccuracy.Text = "";
                 txtActualVelocity.Text = "";
                 txtNewVelocity.Text = "";
-                ComboBoxSprint.ItemsSource = project.GetAllSprintsByProject(currentProjectId);
+               
+
+                project.UpdateVelocityForSprint(newVelocity, selectedSprintInVelocityUpdate, currentProjectId);
+
+                ComboBoxSprint.SelectedIndex = -1;
+                ComboBoxProject.SelectedIndex = -1;
+
+                MessageBox.Show("New Velocity Updated!");
+
+                
+                //ComboBoxSprint.ItemsSource = project.GetAllSprintsByProject(currentProjectId);
             }
             else
             {
@@ -626,9 +641,12 @@ namespace SprintRetrospectiveFront
         #region add_maintain_project
         private void ComboBoxMember_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedMemberId = Convert.ToInt32(ComboBoxMember.SelectedValue);   
+            var selectedComboBoxMemberId = Convert.ToInt32(ComboBoxMember.SelectedValue);
+            
+            if (selectedMemberId != selectedComboBoxMemberId)
+                addingMemberToProject = allUsers[selectedComboBoxMemberId];
 
-            addingMemberToProject = allUsers[selectedMemberId];
+            selectedMemberId = selectedComboBoxMemberId;
         }
 
         private void ButtonAddTeamMember_Click(object sender, RoutedEventArgs e)
@@ -642,8 +660,6 @@ namespace SprintRetrospectiveFront
 
                 txtTeamNumber.Text = newTeamMembersByProject.Count.ToString();
 
-                // Reset
-                addingMemberToProject = null;
             }                   
         }
 
@@ -678,6 +694,10 @@ namespace SprintRetrospectiveFront
 
                 newUserStoriesByProject.Add(userStory);
 
+                // Reset
+                txtNewUserStory.Text = "";
+                txtNewUserStoryPoint.Text = "";
+
                 MessageBox.Show("New user story added!");
             }
             else
@@ -696,9 +716,10 @@ namespace SprintRetrospectiveFront
             var initialVelocity = txtInitialVelocity.Text;
             var hoursPerPoint = txtHoursPerPoint.Text;
             var teamMembers = newTeamMembersByProject;
+            var userStoriesByProject = newUserStoriesByProject;
 
             // Assign the logged User to the team member as Project Manager
-            if(loggedInUser.Role == "ProjectManager")
+            if (loggedInUser.Role == "ProjectManager")
                 newTeamMembersByProject.Add(loggedInUser);
 
             if (projectName != String.Empty && teamName != String.Empty 
@@ -706,22 +727,12 @@ namespace SprintRetrospectiveFront
                 && initialVelocity != String.Empty && hoursPerPoint != String.Empty && teamMembers != null)
             {
 
+                //// Reset before calling ReloadData()
+                ResetAddNewProjectSection();         
+
                 project.AddProject(projectName, teamName, teamNumber, hyperlink, DateTime.Parse(startDateTime), 
-                    double.Parse(initialVelocity), double.Parse(hoursPerPoint), newUserStoriesByProject, teamMembers);
-
-                //// Reset UI
-                txtProjectName.Text ="";
-                txtTeamName.Text = "";
-                txtTeamNumber.Text = "";
-                txtHyperLink.Text = "";
-                txtProjectStartDate.Text = "";
-                txtInitialVelocity.Text = "";
-                txtHoursPerPoint.Text = "";
-                TeamMembersAddList.ItemsSource = new List<User>();
-
-                // Reset
-                newTeamMembersByProject = new List<User>(); ;
-                newUserStoriesByProject = new List<UserStory>();
+                    double.Parse(initialVelocity), double.Parse(hoursPerPoint), userStoriesByProject, teamMembers);
+            
 
                 MessageBox.Show("New project added!");
             }
@@ -736,14 +747,19 @@ namespace SprintRetrospectiveFront
         #region user_story_section
         private void ButtonAddTask_Click(object sender, RoutedEventArgs e)
         {
+            
             if (txtNewTask.Text != String.Empty)
             {
-                project.AddTaskToUserStory(selectedUserStoryIdInUserStory, currentProjectId, DateTime.Now, txtNewTask.Text, 0);
+                var newTask = txtNewTask.Text;
+
+                // Reset before calling ReloadData()
+                txtNewTask.Text = "";
+                ComboBoxSelectedUserStory.SelectedIndex = -1;
+
+                project.AddTaskToUserStory(selectedUserStoryIdInUserStory, currentProjectId, DateTime.Now, newTask, 0);
 
                 MessageBox.Show("New task added!");
 
-                // Reset
-                txtNewTask.Text = "";
             }
             else
             {
@@ -753,39 +769,32 @@ namespace SprintRetrospectiveFront
 
         private void ComboBoxSelectedUserStory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Reset
-            txtTaskActualTime.Text = "";
-            txtNewTask.Text = "";
-            txtStoryPoint.Text = "";
-            txtStoryEstimatedTime.Text = "";
-            txtStoryActualTime.Text = "";
+            // Reset ComboBox Selected UserStory
+            //ResetUserStorySection();
 
-            allSubtasksByUersStory = new List<Subtask>();
+
 
             var selectedUserStoryId = Convert.ToInt32(ComboBoxSelectedUserStory.SelectedValue);
-
             selectedUserStoryIdInUserStory = selectedUserStoryId;
 
             var selectedUserStory = userStoriesByProject[selectedUserStoryId];
 
             var user = project.GetUserByUserStory(selectedUserStoryId, currentProjectId);
-
-            
+     
             txtCurrentUserStoryAssignedMember.Text = user.FirstName + " " + user.LastName;
             txtCurrentUserStorySprint.Text = selectedUserStory.SprintId.ToString();
             txtCurrentUserStoryStatus.Text = selectedUserStory.Status.ToString();
 
-
-            ComboBoxUpdateSprint.ItemsSource = new List<Sprint>();
+            
+            ComboBoxAssignedMember.ItemsSource = teamMembersInScore;
+           
             ComboBoxUpdateSprint.ItemsSource = allSprintsByProject;
-
-
-            ComboBoxUpdateStatus.ItemsSource = new List<string>();
+         
             ComboBoxUpdateStatus.ItemsSource = comboBoxUserStoryStatus;
 
             txtStoryPoint.Text = selectedUserStory.StoryPoint.ToString();
-            txtStoryEstimatedTime.Text = selectedUserStory.InitialEstimatedHours.ToString();
-            txtStoryActualTime.Text = selectedUserStory.ActualWorkHours.ToString();
+            txtStoryEstimatedTime.Text = selectedUserStory.InitialEstimatedHours.ToString() + " hour(s)";
+            txtStoryActualTime.Text = selectedUserStory.ActualWorkHours.ToString() + " hour(s)";
 
 
             // Sub tasks
@@ -808,11 +817,14 @@ namespace SprintRetrospectiveFront
         {
             if(txtTaskActualTime.Text != "0")
             {
+
+
                 project.UpdateActualTimeBySubTask(double.Parse(txtTaskActualTime.Text), selectedSubTaskIdInUserStory, selectedUserStoryIdInUserStory, currentProjectId);
 
                 // Reset
-                //selectedSubTaskIdInUserStory = 0;
                 txtTaskActualTime.Text = "";
+                ComboBoxSelectedUserStory.SelectedIndex = -1;
+                ComboBoxCurrentTaskList.SelectedIndex = -1;
 
                 MessageBox.Show("Task actual time updated");
             }
@@ -831,21 +843,36 @@ namespace SprintRetrospectiveFront
             var storyPoint = txtStoryPoint.Text;
             var storyActualTime = txtStoryActualTime.Text;
 
+           
+
+
+
+
             if (assigningMemberId != -1 && updateSprint != -1
-                && updateStatus != "" && storyPoint != String.Empty && storyActualTime != String.Empty)
+                && updateStatus != null && storyPoint != String.Empty && storyActualTime != String.Empty)
             {
 
-                project.UpdateUserStory(currentProjectId, selectedUserStoryIdInUserStory, assigningMemberId, updateSprint, updateStatus, Int32.Parse(storyPoint), Double.Parse(storyActualTime));
-
-                MessageBox.Show("User story updated!");
-
-                //// Reset
+                // Reset before calling ReloadData()
+                txtCurrentUserStoryAssignedMember.Text = "";
+                txtCurrentUserStorySprint.Text = "";
+                txtCurrentUserStoryStatus.Text = "";
                 txtStoryPoint.Text = "";
                 txtStoryEstimatedTime.Text = "";
                 txtStoryActualTime.Text = "";
-                selectedUpdateSprintInUserStory = -1;
-                selectedUpdateStatusInUserStory = "";
-                selectedAssigningUserInUserStory = -1;
+               
+
+                project.UpdateUserStory(currentProjectId, selectedUserStoryIdInUserStory, assigningMemberId, updateSprint, updateStatus, Int32.Parse(storyPoint), Double.Parse(storyActualTime));
+
+                ComboBoxSelectedUserStory.SelectedIndex = -1;
+                ComboBoxAssignedMember.SelectedIndex = -1;
+                ComboBoxUpdateSprint.SelectedIndex = -1;
+                ComboBoxUpdateStatus.SelectedIndex = -1;
+                ComboBoxProject.SelectedIndex = -1;
+                ComboBoxCategory.SelectedIndex = -1;
+                ComboBoxSubCategory.SelectedIndex = -1;
+
+                MessageBox.Show("User story updated!");
+            
             }
             else
             {
@@ -857,7 +884,6 @@ namespace SprintRetrospectiveFront
         {
             var selectedUpdateSprint = Convert.ToInt32(ComboBoxAssignedMember.SelectedValue);
 
-            selectedAssigningUserInUserStory = -1;
             selectedAssigningUserInUserStory = selectedUpdateSprint;
         }
 
@@ -865,7 +891,6 @@ namespace SprintRetrospectiveFront
         {
             var selectedUpdateSprint = Convert.ToInt32(ComboBoxUpdateSprint.SelectedValue);
 
-            selectedUpdateSprintInUserStory = -1;
             selectedUpdateSprintInUserStory = selectedUpdateSprint;
         }
 
@@ -875,7 +900,6 @@ namespace SprintRetrospectiveFront
 
             var status = comboBox.SelectedItem as string;
 
-            selectedUpdateStatusInUserStory = "";
             selectedUpdateStatusInUserStory = status;
         }
         #endregion
@@ -884,5 +908,59 @@ namespace SprintRetrospectiveFront
         {
             this.Close();
         }   
+
+
+
+
+        // Helper Method to reset UI
+        private void ResetScoreSection()
+        {
+            // Reset UI [ScoreSection]
+            ComboBoxTeamMember.IsEnabled = true;
+            ComboBoxUserStory.IsEnabled = true;
+            txtTotalEstimatedTime.IsReadOnly = false;
+            txtTotalActualTime.IsReadOnly = false;
+            txtScore.IsReadOnly = false;
+
+
+        }
+
+        private void ResetUserStorySection()
+        {
+            // Reset ComboBox Selected UserStory
+            txtCurrentUserStoryAssignedMember.Text = "";
+            txtCurrentUserStorySprint.Text = "";
+            txtCurrentUserStoryStatus.Text = "";
+            txtStoryPoint.Text = "";
+            txtStoryEstimatedTime.Text = "";
+            txtStoryActualTime.Text = "";
+
+            ComboBoxSelectedUserStory.SelectedIndex = -1;
+            ComboBoxAssignedMember.SelectedIndex = -1;
+            ComboBoxUpdateSprint.SelectedIndex = -1;
+            ComboBoxUpdateStatus.SelectedIndex = -1;
+            ComboBoxProject.SelectedIndex = -1;
+            ComboBoxCategory.SelectedIndex = -1;
+            ComboBoxSubCategory.SelectedIndex = -1;
+
+        }
+
+        private void ResetAddNewProjectSection()
+        {
+            txtProjectName.Text = "";
+            txtTeamName.Text = "";
+            txtTeamNumber.Text = "";
+            txtHyperLink.Text = "";
+            txtProjectStartDate.Text = "";
+            txtInitialVelocity.Text = "";
+            txtHoursPerPoint.Text = "";
+            selectedMemberId = -1;
+            ComboBoxMember.SelectedIndex = -1;
+            TeamMembersAddList.Items.Clear();
+            newTeamMembersByProject = new List<User>(); ;
+            newUserStoriesByProject = new List<UserStory>();
+
+        }
+
     }// end MainWindow
 }

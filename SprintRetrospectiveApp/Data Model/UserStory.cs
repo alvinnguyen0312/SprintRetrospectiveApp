@@ -56,7 +56,7 @@ namespace SprintRetrospectiveApp.Models
         public override string ToString()
         {
             //return $"Id: {Id}\nUserId: {UserId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
-            return $"Id: {Id}\nSprintId: {SprintId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
+            return $"SprintId: {SprintId}\nDescription: {Description}\nInitialEstimatedHours: {InitialEstimatedHours}\nActualWorkHours: {ActualWorkHours}\nStatus: {Status}";
         }
 
         
