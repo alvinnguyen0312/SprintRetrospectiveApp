@@ -337,7 +337,7 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
 
-                                    <Label Content="Assign Member :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="0" FontStyle="Normal"/>
+                                    <Label Content="Update Member :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="0" FontStyle="Normal"/>
                                     <Label Content="Update Sprint :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="1" FontStyle="Normal"/>
                                     <Label Content="Update Status :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="2" FontStyle="Normal"/>
                                     <Label Content="Story Points :" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="3" FontStyle="Normal"/>
