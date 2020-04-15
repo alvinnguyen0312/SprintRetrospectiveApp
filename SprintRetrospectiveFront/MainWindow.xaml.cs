@@ -793,8 +793,8 @@ namespace SprintRetrospectiveFront
             ComboBoxUpdateStatus.ItemsSource = comboBoxUserStoryStatus;
 
             txtStoryPoint.Text = selectedUserStory.StoryPoint.ToString();
-            txtStoryEstimatedTime.Text = selectedUserStory.InitialEstimatedHours.ToString() + " hour(s)";
-            txtStoryActualTime.Text = selectedUserStory.ActualWorkHours.ToString() + " hour(s)";
+            txtStoryEstimatedTime.Text = selectedUserStory.InitialEstimatedHours.ToString();
+            txtStoryActualTime.Text = selectedUserStory.ActualWorkHours.ToString();
 
 
             // Sub tasks
