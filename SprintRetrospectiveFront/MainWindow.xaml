@@ -175,6 +175,7 @@
                                 <RowDefinition Height="37*"/>
                             </Grid.RowDefinitions>
 
+                            <!-- Projec Information Section -->
                             <StackPanel Grid.Column="0" Grid.Row="0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -211,8 +212,8 @@
                                     <TextBox x:Name="txtHyperLink" Margin="5" Grid.Column="1" Grid.Row="7" VerticalContentAlignment="Center" FontStyle="Normal"  IsReadOnly="True" BorderThickness="1"/>
 
                                 </Grid>
-
                             </StackPanel>
+                            <!-- Team Member Add Section -->
                             <StackPanel Grid.Column="1" Grid.Row="0">
                                 <GroupBox  Header="Team Members" HorizontalAlignment="Right" Height="246" Margin="10,0,0,0" VerticalAlignment="Top" Width="210" FontStyle="Italic">
                                     <Grid>

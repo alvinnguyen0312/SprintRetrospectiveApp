@@ -128,6 +128,7 @@ namespace SprintRetrospectiveFront
             txtProjectStartDate.Text = "";
             txtInitialVelocity.IsReadOnly = true;
             txtInitialVelocity.Text = "";
+            txtNewVelocity.Text = "";
             txtHoursPerPoint.IsReadOnly = true;
             txtHoursPerPoint.Text = "";
             txtHyperLink.IsReadOnly = true;
@@ -167,10 +168,11 @@ namespace SprintRetrospectiveFront
             ButtonUpdateUserStory.IsEnabled = false;
 
             // Reset the variables
+            currentProject = null;
+            currentProjectId = -1;
             newTeamMembersByProject = new List<User>();
             newUserStoriesByProject = new List<UserStory>();
-            currentProject = null;
-
+            
 
         }
 
@@ -707,7 +709,7 @@ namespace SprintRetrospectiveFront
                 project.AddProject(projectName, teamName, teamNumber, hyperlink, DateTime.Parse(startDateTime), 
                     double.Parse(initialVelocity), double.Parse(hoursPerPoint), newUserStoriesByProject, teamMembers);
 
-                //// Reset
+                //// Reset UI
                 txtProjectName.Text ="";
                 txtTeamName.Text = "";
                 txtTeamNumber.Text = "";
@@ -715,6 +717,7 @@ namespace SprintRetrospectiveFront
                 txtProjectStartDate.Text = "";
                 txtInitialVelocity.Text = "";
                 txtHoursPerPoint.Text = "";
+                TeamMembersAddList.ItemsSource = new List<User>();
 
                 // Reset
                 newTeamMembersByProject = new List<User>(); ;

@@ -329,6 +329,7 @@
                 </Grid>
 
               </StackPanel>
+              <!-- Task Section -->
               <StackPanel Grid.Column="1" Grid.Row="1" Margin="233,0.5,0,59" Grid.RowSpan="3" Grid.ColumnSpan="2">
                 <GroupBox  Header="Tasks" HorizontalAlignment="Right" Height="238" VerticalAlignment="Top" Width="431" FontStyle="Italic">
                   <Grid>
